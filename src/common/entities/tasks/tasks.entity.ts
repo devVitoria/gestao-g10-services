@@ -1,5 +1,14 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UsersTaks } from './users-tasks.entity';
+import { Users } from '../users/users.entity';
+import { Teams } from '../users/teams.entity';
 
 @Entity({ name: 'GGD_TASKS' })
 export class Tasks {
@@ -39,5 +48,13 @@ export class Tasks {
   changedAt: Date;
 
   @OneToMany(() => UsersTaks, (ut) => ut.task)
-  userTasks: UsersTaks[];
+  tasksCreated: UsersTaks[];
+
+  @ManyToOne(() => Users, (u) => u.userTaks)
+  @JoinColumn({ name: 'CREATED_BY' })
+  user: Users;
+
+  @ManyToOne(() => Teams, (t) => t.teamEvents)
+  @JoinColumn({ name: 'TEAM_RELATED' })
+  taskTeam: Teams;
 }

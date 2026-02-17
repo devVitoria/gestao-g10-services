@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Users } from './users.entity';
 import { Events } from '../events/events.entity';
+import { Tasks } from '../tasks/tasks.entity';
 
 @Entity({ name: 'GGD_TEAMS' })
 export class Teams {
@@ -21,6 +22,9 @@ export class Teams {
 
   @OneToMany(() => Users, (u) => u.team)
   users: Users[];
+
+  @OneToMany(() => Tasks, (e) => e.taskTeam)
+  teamEvents: Tasks[];
 
   @OneToMany(() => Events, (e) => e.team)
   events: Events[];

@@ -19,7 +19,7 @@ export class UsersTaks {
   @JoinColumn({ name: 'USER_ID' })
   user: Users;
 
-  @ManyToOne(() => Tasks, (u) => u.userTasks)
+  @ManyToOne(() => Tasks, (u) => u.tasksCreated)
   @JoinColumn({ name: 'TASK_ID' })
   task: Tasks;
 
