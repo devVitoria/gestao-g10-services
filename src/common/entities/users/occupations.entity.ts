@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Users } from './users.entity';
 
-@Entity({ name: 'GGD_OCUPATIONS' })
-export class Ocupations {
+@Entity({ name: 'GGD_OCCUPATIONS' })
+export class Occupations {
   @PrimaryGeneratedColumn({
     name: 'ID',
   })

@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Teams } from './teams.entity';
-import { Ocupations } from './ocupations.entity';
+import { Occupations } from './occupations.entity';
 import { UsersTaks } from '../tasks/users-tasks.entity';
 import { Events } from '../events/events.entity';
 import { Tasks } from '../tasks/tasks.entity';
@@ -39,9 +39,9 @@ export class Users {
   @JoinColumn({ name: 'TEAM' })
   team: Teams;
 
-  @ManyToOne(() => Ocupations, (t) => t.users, { nullable: false })
+  @ManyToOne(() => Occupations, (t) => t.users, { nullable: false })
   @JoinColumn({ name: 'OCUPATION' })
-  ocupation: Ocupations;
+  ocupation: Occupations;
 
   @OneToMany(() => UsersTaks, (ut) => ut.user)
   tasks: UsersTaks[];
