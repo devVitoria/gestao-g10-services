@@ -11,6 +11,13 @@ export class Teams {
   @Column({ name: 'NAME', length: 100 })
   name: string;
 
+  @Column({
+    name: 'CHANGED_AT',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  changedAt: Date;
+
   @OneToMany(() => Users, (u) => u.team)
   users: Users[];
 }

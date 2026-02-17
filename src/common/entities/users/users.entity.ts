@@ -3,10 +3,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Teams } from './teams.entity';
 import { Ocupations } from './ocupations.entity';
+import { UsersTaks } from '../tasks/users-tasks.entity';
 
 @Entity({ name: 'GGD_USERS' })
 export class Users {
@@ -18,8 +20,15 @@ export class Users {
   @Column({ name: 'NAME', length: 100, default: null })
   name: string;
 
-  @Column({ name: 'BIRTHDAY', default: null })
+  @Column({ name: 'BIRTHDAY', type: 'timestamp', default: null })
   birthday: Date;
+
+  @Column({
+    name: 'CHANGED_AT',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  changedAt: Date;
 
   @Column({ name: 'ACTIVE', default: 1 })
   active: number;
@@ -31,4 +40,7 @@ export class Users {
   @ManyToOne(() => Ocupations, (t) => t.users, { nullable: false })
   @JoinColumn({ name: 'OCUPATION' })
   ocupation: Ocupations;
+
+  @OneToMany(() => UsersTaks, (ut) => ut.user)
+  tasks: UsersTaks[];
 }

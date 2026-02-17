@@ -11,6 +11,13 @@ export class Ocupations {
   @Column({ name: 'DESCRIPTION', length: 100 })
   desc: string;
 
+  @Column({
+    name: 'CHANGED_AT',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  changedAt: Date;
+
   @OneToMany(() => Users, (u) => u.ocupation)
   users: Users[];
 }
