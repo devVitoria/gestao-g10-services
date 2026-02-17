@@ -4,13 +4,19 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
 import { AuthModule } from './auth/auth.module';
-import { MembersModule } from './no/members/members.module';
-import { MembersModule } from './members/members.module';
 import { TasksModule } from './tasks/tasks.module';
 import { AtasModule } from './atas/atas.module';
+import { DbModule } from './common/db/db.module';
 
 @Module({
-  imports: [UsersModule, EventsModule, AuthModule, MembersModule, TasksModule, AtasModule],
+  imports: [
+    UsersModule,
+    EventsModule,
+    AuthModule,
+    TasksModule,
+    AtasModule,
+    DbModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
