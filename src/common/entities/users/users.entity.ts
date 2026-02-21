@@ -11,6 +11,7 @@ import { Occupations } from './occupations.entity';
 import { UsersTaks } from '../tasks/users-tasks.entity';
 import { Events } from '../events/events.entity';
 import { Tasks } from '../tasks/tasks.entity';
+import { Atas } from '../atas/atas.entity';
 
 @Entity({ name: 'GGD_USERS' })
 export class Users {
@@ -51,4 +52,7 @@ export class Users {
 
   @OneToMany(() => Events, (e) => e.user)
   events: Events[];
+
+  @OneToMany(() => Atas, (a) => a.user)
+  userEvent: Atas[];
 }

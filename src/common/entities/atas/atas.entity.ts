@@ -3,15 +3,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Users } from '../users/users.entity';
 import { Teams } from '../users/teams.entity';
-import { Atas } from '../atas/atas.entity';
+import { Events } from '../events/events.entity';
 
-@Entity({ name: 'GGD_EVENTS' })
-export class Events {
+@Entity({ name: 'GGD_ATAS' })
+export class Atas {
   @PrimaryGeneratedColumn({
     name: 'ID',
   })
@@ -23,27 +22,24 @@ export class Events {
   title: string;
 
   @Column({
-    name: 'START_DATE',
+    name: 'CREATED_AT',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  startDate: Date;
+  createdAt: Date;
 
-  @Column({
-    name: 'END_DATE',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  endDate: Date;
-
-  @ManyToOne(() => Users, (u) => u.events)
+  @ManyToOne(() => Users, (u) => u.userEvent)
   @JoinColumn({ name: 'CREATED_BY' })
   user: Users;
 
-  @ManyToOne(() => Teams, (t) => t.events)
+  @Column({ name: 'CONTENT', type: 'clob', length: 4000, nullable: true })
+  content?: string;
+
+  @ManyToOne(() => Events, (u) => u.eventRelated)
+  @JoinColumn({ name: 'EVENT_RELATED' })
+  eventRelates: Users;
+
+  @ManyToOne(() => Teams, (t) => t.teamRelated)
   @JoinColumn({ name: 'TEAM_RELATED' })
   team: Teams;
-
-  @OneToMany(() => Atas, (a) => a.eventRelates)
-  eventRelated: Atas[];
 }

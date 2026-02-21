@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Users } from './users.entity';
 import { Events } from '../events/events.entity';
 import { Tasks } from '../tasks/tasks.entity';
+import { Atas } from '../atas/atas.entity';
 
 @Entity({ name: 'GGD_TEAMS' })
 export class Teams {
@@ -28,4 +29,7 @@ export class Teams {
 
   @OneToMany(() => Events, (e) => e.team)
   events: Events[];
+
+  @OneToMany(() => Atas, (a) => a.team)
+  teamRelated: Atas[];
 }
