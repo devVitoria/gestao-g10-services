@@ -7,9 +7,13 @@ import { AuthModule } from './auth/auth.module';
 import { TasksModule } from './tasks/tasks.module';
 import { AtasModule } from './atas/atas.module';
 import { DbModule } from './common/db/db.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     UsersModule,
     EventsModule,
     AuthModule,
