@@ -32,7 +32,7 @@ export class Atas {
   @JoinColumn({ name: 'CREATED_BY' })
   user: Users;
 
-  @Column({ name: 'CONTENT', type: 'clob', length: 4000, nullable: true })
+  @Column({ name: 'CONTENT', length: 4000, nullable: true })
   content?: string;
 
   @ManyToOne(() => Events, (u) => u.eventRelated)
