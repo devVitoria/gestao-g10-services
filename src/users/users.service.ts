@@ -2,12 +2,33 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InsertUserDto } from 'src/common/dto/users/insert-user.dto';
 import { UsersRepository } from './users.repository';
 import moment from 'moment';
-import { InsertUserRes } from 'src/common/utils/users/class';
+import { StatusRes } from 'src/common/utils/users/class';
+import { InsertTeamDto } from 'src/common/dto/users/insert-team.dto';
+import { InsertOccupationDto } from 'src/common/dto/users/insert-occcupation.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersReporitory: UsersRepository) {}
-  async insertUser(data: InsertUserDto): Promise<InsertUserRes | null> {
+
+  async insertTeam(data: InsertTeamDto): Promise<StatusRes> {
+    await this.usersReporitory.insertTeam(data);
+    return {
+      status: 201,
+      message: 'OK',
+    };
+  }
+
+  async insertOccupation(data: InsertOccupationDto): Promise<StatusRes> {
+    await this.usersReporitory.insertOccupation({
+      desc: data.description,
+    });
+
+    return {
+      status: 201,
+      message: 'OK',
+    };
+  }
+  async insertUser(data: InsertUserDto): Promise<StatusRes | null> {
     try {
       const [occupation, team] = await Promise.all([
         this.usersReporitory.getOccupationById(data.occupation),

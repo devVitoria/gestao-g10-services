@@ -34,4 +34,12 @@ export class UsersRepository {
   async insertUser(data: Partial<Users>): Promise<InsertResult> {
     return await this.usersRepo.insert(data);
   }
+
+  async insertTeam(data: Partial<Teams>): Promise<InsertResult> {
+    return await this.teamsRepo.insert(data);
+  }
+
+  async insertOccupation(data: Partial<Occupations>): Promise<InsertResult> {
+    return await this.occupationsRepo.insert(data);
+  }
 }

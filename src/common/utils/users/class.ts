@@ -1,4 +1,4 @@
-export class InsertUserRes {
+export class StatusRes {
   status: number;
   message: string;
 }
