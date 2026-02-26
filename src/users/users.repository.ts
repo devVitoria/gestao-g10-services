@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Occupations } from 'src/common/entities/users/occupations.entity';
 import { Teams } from 'src/common/entities/users/teams.entity';
 import { Users } from 'src/common/entities/users/users.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { InsertResult } from 'typeorm/browser';
 
 export class UsersRepository {
@@ -34,9 +34,26 @@ export class UsersRepository {
   async insertUser(data: Partial<Users>): Promise<InsertResult> {
     return await this.usersRepo.insert(data);
   }
+  async getTeamByName(name: string): Promise<Teams | null> {
+    return await this.teamsRepo.findOne({
+      where: {
+        name: ILike(`%${name}%`),
+      },
+    });
+  }
 
   async insertTeam(data: Partial<Teams>): Promise<InsertResult> {
     return await this.teamsRepo.insert(data);
+  }
+
+  async getOccupationByDescription(
+    description: string,
+  ): Promise<Occupations | null> {
+    return await this.occupationsRepo.findOne({
+      where: {
+        desc: ILike(`%${description}%`),
+      },
+    });
   }
 
   async insertOccupation(data: Partial<Occupations>): Promise<InsertResult> {

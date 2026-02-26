@@ -11,6 +11,13 @@ export class UsersService {
   constructor(private readonly usersReporitory: UsersRepository) {}
 
   async insertTeam(data: InsertTeamDto): Promise<StatusRes> {
+    const existsTeam = await this.usersReporitory.getTeamByName(
+      data?.name?.trim(),
+    );
+
+    if (existsTeam) {
+      throw new BadRequestException('Já existe uma equipe com esse nome!');
+    }
     await this.usersReporitory.insertTeam(data);
     return {
       status: 201,
@@ -19,6 +26,17 @@ export class UsersService {
   }
 
   async insertOccupation(data: InsertOccupationDto): Promise<StatusRes> {
+    const existsOccupation =
+      await this.usersReporitory.getOccupationByDescription(
+        data?.description?.trim(),
+      );
+
+    if (existsOccupation) {
+      throw new BadRequestException(
+        'Já existe uma ocupação com essa descrição!',
+      );
+    }
+
     await this.usersReporitory.insertOccupation({
       desc: data.description,
     });
@@ -28,6 +46,7 @@ export class UsersService {
       message: 'OK',
     };
   }
+
   async insertUser(data: InsertUserDto): Promise<StatusRes | null> {
     try {
       const [occupation, team] = await Promise.all([
