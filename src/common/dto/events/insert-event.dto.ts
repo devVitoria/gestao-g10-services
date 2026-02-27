@@ -23,6 +23,11 @@ export class InsertEventDto {
   @IsNotEmpty({ message: 'A data de fim é obrigatória' })
   endDate: string;
 
+  @ApiProperty({ description: 'ID do usuário que criou o evento' })
+  @IsNotEmpty({ message: 'ID do usuário  do usuário precisa ser inserido' })
+  @IsNumber({}, { message: 'ID do usuário  do usuário deve ser um número' })
+  userId: number;
+
   @ApiProperty({ description: 'ID da ocupação do usuário' })
   @IsNotEmpty({ message: 'O ID da ocupação do usuário precisa ser inserido' })
   @IsNumber({}, { message: 'O ID da ocupação do usuário deve ser um número' })

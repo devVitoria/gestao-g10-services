@@ -7,6 +7,7 @@ import { InsertTeamDto } from 'src/common/dto/users/insert-team.dto';
 import { InsertOccupationDto } from 'src/common/dto/users/insert-occcupation.dto';
 import { Occupations } from 'src/common/entities/users/occupations.entity';
 import { Teams } from 'src/common/entities/users/teams.entity';
+import { Users } from 'src/common/entities/users/users.entity';
 
 @Injectable()
 export class UsersService {
@@ -49,23 +50,33 @@ export class UsersService {
     };
   }
 
-  async findModule(
-    type: 'occupation' | 'team',
-    id: number,
-  ): Promise<Occupations | Teams | null> {
-    if (type === 'occupation') {
-      const occupation = await this.usersReporitory.getOccupationById(id);
+  async findOccupation(id: number): Promise<Occupations> {
+    const occupation = await this.usersReporitory.getOccupationById(id);
 
-      if (!occupation) {
-        throw new BadRequestException(
-          'O ID para ocupação informado é inválido ou não existe',
-        );
-      }
-
-      return occupation;
+    if (!occupation) {
+      throw new BadRequestException(
+        'O ID para ocupação informado é inválido ou não existe',
+      );
     }
 
+    return occupation;
+  }
+
+  async findUser(id: number): Promise<Users> {
+    const user = await this.usersReporitory.getUserById(id);
+
+    if (!user) {
+      throw new BadRequestException(
+        'O ID do usuário informado é inválido ou não existe',
+      );
+    }
+
+    return user;
+  }
+
+  async findTeam(id: number): Promise<Teams> {
     const team = await this.usersReporitory.getTeamById(id);
+
     if (!team) {
       throw new BadRequestException(
         'O ID para equipe informado é inválido ou não existe',
@@ -74,12 +85,11 @@ export class UsersService {
 
     return team;
   }
-
   async insertUser(data: InsertUserDto): Promise<StatusRes | null> {
     try {
       const [occupation, team] = await Promise.all([
-        this.findModule('occupation', data.occupation),
-        this.findModule('team', data.team),
+        this.findOccupation(data.occupation),
+        this.findTeam(data.team),
       ]);
 
       const userInsertPayload = {
@@ -88,6 +98,7 @@ export class UsersService {
         occupation,
         team,
       };
+
       await this.usersReporitory.insertUser(userInsertPayload);
 
       return {
