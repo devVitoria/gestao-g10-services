@@ -5,6 +5,8 @@ import moment from 'moment';
 import { StatusRes } from 'src/common/utils/users/class';
 import { InsertTeamDto } from 'src/common/dto/users/insert-team.dto';
 import { InsertOccupationDto } from 'src/common/dto/users/insert-occcupation.dto';
+import { Occupations } from 'src/common/entities/users/occupations.entity';
+import { Teams } from 'src/common/entities/users/teams.entity';
 
 @Injectable()
 export class UsersService {
@@ -47,12 +49,12 @@ export class UsersService {
     };
   }
 
-  async insertUser(data: InsertUserDto): Promise<StatusRes | null> {
-    try {
-      const [occupation, team] = await Promise.all([
-        this.usersReporitory.getOccupationById(data.occupation),
-        this.usersReporitory.getTeamById(data.team),
-      ]);
+  async findModule(
+    type: 'occupation' | 'team',
+    id: number,
+  ): Promise<Occupations | Teams | null> {
+    if (type === 'occupation') {
+      const occupation = await this.usersReporitory.getOccupationById(id);
 
       if (!occupation) {
         throw new BadRequestException(
@@ -60,11 +62,25 @@ export class UsersService {
         );
       }
 
-      if (!team) {
-        throw new BadRequestException(
-          'O ID para equipe informado é inválido ou não existe',
-        );
-      }
+      return occupation;
+    }
+
+    const team = await this.usersReporitory.getTeamById(id);
+    if (!team) {
+      throw new BadRequestException(
+        'O ID para equipe informado é inválido ou não existe',
+      );
+    }
+
+    return team;
+  }
+
+  async insertUser(data: InsertUserDto): Promise<StatusRes | null> {
+    try {
+      const [occupation, team] = await Promise.all([
+        this.findModule('occupation', data.occupation),
+        this.findModule('team', data.team),
+      ]);
 
       const userInsertPayload = {
         ...data,
