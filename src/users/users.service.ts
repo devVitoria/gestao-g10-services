@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InsertUserDto } from 'src/common/dto/users/insert-user.dto';
 import { UsersRepository } from './users.repository';
 import moment from 'moment';
-import { StatusRes } from 'src/common/utils/users/class';
+import { StatusRes } from 'src/common/utils/users/classes';
 import { InsertTeamDto } from 'src/common/dto/users/insert-team.dto';
 import { InsertOccupationDto } from 'src/common/dto/users/insert-occcupation.dto';
 import { Occupations } from 'src/common/entities/users/occupations.entity';

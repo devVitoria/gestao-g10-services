@@ -1,9 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import moment from 'moment';
 import { InsertEventDto } from 'src/common/dto/events/insert-event.dto';
-import { StatusRes } from 'src/common/utils/users/class';
+import { StatusRes } from 'src/common/utils/users/classes';
 import { UsersService } from 'src/users/users.service';
 import { EventsRepository } from './events.repository';
+import { Events } from 'src/common/entities/events/events.entity';
 
 @Injectable()
 export class EventsService {
@@ -39,5 +40,28 @@ export class EventsService {
       console.error('ERRO ao inserir evento', e);
       throw new BadRequestException('Erro ao inserir evento');
     }
+  }
+
+  async getEvents(): Promise<Events[] | null> {
+    return this.eventsRepository.getEvents();
+  }
+
+  async deleteEvent(id: string): Promise<StatusRes> {
+    const existsEvent = await this.eventsRepository.getEventById(Number(id));
+    if (!existsEvent)
+      throw new BadRequestException('Não existe um evento com esse ID');
+
+    const res = await this.eventsRepository.delete(Number(id));
+
+    if (res.affected === 1)
+      return {
+        status: 200,
+        message: 'Deletado',
+      };
+
+    return {
+      status: 400,
+      message: 'Erro ao deletar',
+    };
   }
 }
