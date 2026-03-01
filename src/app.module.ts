@@ -8,6 +8,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { AtasModule } from './atas/atas.module';
 import { DbModule } from './common/db/db.module';
 import { ConfigModule } from '@nestjs/config';
+import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     UsersModule,
     EventsModule,
+    SettingsModule,
     AuthModule,
     TasksModule,
     AtasModule,
