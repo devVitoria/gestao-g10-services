@@ -42,6 +42,7 @@ export class UsersRepository {
   async insertUser(data: Partial<Users>): Promise<InsertResult> {
     return await this.usersRepo.insert(data);
   }
+
   async getTeamByName(name: string): Promise<Teams | null> {
     return await this.teamsRepo.findOne({
       where: {
@@ -52,6 +53,16 @@ export class UsersRepository {
 
   async insertTeam(data: Partial<Teams>): Promise<InsertResult> {
     return await this.teamsRepo.insert(data);
+  }
+
+  async updateUser(data: Partial<Users>) {
+    return this.usersRepo.update(
+      { id: data.id },
+      {
+        ...data,
+        changedAt: () => 'CURRENT_TIMESTAMP',
+      },
+    );
   }
 
   async getOccupationByDescription(
@@ -66,5 +77,9 @@ export class UsersRepository {
 
   async insertOccupation(data: Partial<Occupations>): Promise<InsertResult> {
     return await this.occupationsRepo.insert(data);
+  }
+
+  async getAllUsers(): Promise<Users[] | null> {
+    return this.usersRepo.find();
   }
 }

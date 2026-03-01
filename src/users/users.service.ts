@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InsertUserDto } from 'src/common/dto/users/insert-user.dto';
 import { UsersRepository } from './users.repository';
 import moment from 'moment';
-import { StatusRes } from 'src/common/utils/users/classes';
+import { GetUsers, StatusRes } from 'src/common/utils/users/classes';
 import { InsertTeamDto } from 'src/common/dto/users/insert-team.dto';
 import { InsertOccupationDto } from 'src/common/dto/users/insert-occcupation.dto';
 import { Occupations } from 'src/common/entities/users/occupations.entity';
@@ -109,5 +109,45 @@ export class UsersService {
       console.error('ERRO ao inserir usuário', e);
       throw new BadRequestException('Erro ao inserir usuário');
     }
+  }
+
+  async getAllUsers(): Promise<GetUsers[] | null> {
+    try {
+      const allUsers = await this.usersReporitory.getAllUsers();
+      if (!allUsers) return null;
+      return allUsers?.map((u) => {
+        return {
+          ...u,
+          hadBirthday: moment(u?.birthday)
+            .year(moment().year())
+            .isSameOrBefore(moment()),
+        };
+      });
+    } catch (e) {
+      console.error('Erro ao buscar usuários', e);
+      throw new Error('Erro ao buscar usuários');
+    }
+  }
+
+  async inativeUser(id: string): Promise<StatusRes | null> {
+    const user = await this.usersReporitory.getUserById(Number(id));
+    if (!user)
+      throw new BadRequestException('Nenhum usuário encontrado com esse ID');
+
+    const updated = await this.usersReporitory.updateUser({
+      id: Number(id),
+      active: 1,
+    });
+
+    if (updated.affected === 1)
+      return {
+        status: 200,
+        message: 'Inativado com sucesso',
+      };
+
+    return {
+      status: 400,
+      message: 'Ocorreu um erro na iativação do usuário.',
+    };
   }
 }
