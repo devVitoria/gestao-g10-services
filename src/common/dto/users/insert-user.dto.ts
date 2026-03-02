@@ -5,7 +5,7 @@ export class InsertUserDto {
   @ApiProperty({ description: 'Nome do usuário' })
   @IsNotEmpty({ message: 'O nome do usuário precisa ser inserido' })
   @IsString({ message: 'O nome do usuário deve ser uma string' })
-  nome: string;
+  name: string;
 
   @ApiProperty({ description: 'Aniversário do usuário' })
   @IsNotEmpty({ message: 'O aniversário do usuário precisa ser inserido' })

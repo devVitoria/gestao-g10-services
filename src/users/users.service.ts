@@ -52,7 +52,6 @@ export class UsersService {
 
   async findOccupation(id: number): Promise<Occupations> {
     const occupation = await this.usersReporitory.getOccupationById(id);
-
     if (!occupation) {
       throw new BadRequestException(
         'O ID para ocupação informado é inválido ou não existe',
@@ -76,7 +75,6 @@ export class UsersService {
 
   async findTeam(id: number): Promise<Teams> {
     const team = await this.usersReporitory.getTeamById(id);
-
     if (!team) {
       throw new BadRequestException(
         'O ID para equipe informado é inválido ou não existe',

@@ -41,8 +41,8 @@ export class Users {
   team: Teams;
 
   @ManyToOne(() => Occupations, (t) => t.users, { nullable: false })
-  @JoinColumn({ name: 'OCUPATION' })
-  ocupation: Occupations;
+  @JoinColumn({ name: 'OCCUPATION' })
+  occupation: Occupations;
 
   @OneToMany(() => UsersTaks, (ut) => ut.user)
   tasks: UsersTaks[];

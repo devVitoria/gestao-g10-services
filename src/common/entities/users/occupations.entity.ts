@@ -18,6 +18,6 @@ export class Occupations {
   })
   changedAt: Date;
 
-  @OneToMany(() => Users, (u) => u.ocupation)
+  @OneToMany(() => Users, (u) => u.occupation)
   users: Users[];
 }
