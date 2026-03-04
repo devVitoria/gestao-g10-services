@@ -8,6 +8,7 @@ import { InsertOccupationDto } from 'src/common/dto/users/insert-occcupation.dto
 import { Occupations } from 'src/common/entities/users/occupations.entity';
 import { Teams } from 'src/common/entities/users/teams.entity';
 import { Users } from 'src/common/entities/users/users.entity';
+import { UserAuthorizationDto } from 'src/common/dto/users/user-authorization.dto';
 
 @Injectable()
 export class UsersService {
@@ -145,6 +146,27 @@ export class UsersService {
 
     return {
       status: 400,
+      message: 'Ocorreu um erro na iativação do usuário.',
+    };
+  }
+
+  async userAuthorization(
+    data: UserAuthorizationDto,
+  ): Promise<StatusRes | null> {
+    const user = await this.usersReporitory.getUserByCode(data.userCode);
+    if (!user)
+      throw new BadRequestException(
+        'Nenhum usuário encontrado com esse Código',
+      );
+
+    const sameBirthday =
+      moment(user?.birthday).format('MM-DD') ===
+      moment(data?.birthday).format('MM-DD');
+
+    if (!sameBirthday) throw new BadRequestException('Credenciais inválidas');
+
+    return {
+      status: 200,
       message: 'Ocorreu um erro na iativação do usuário.',
     };
   }

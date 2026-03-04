@@ -23,6 +23,9 @@ export class Users {
   @Column({ name: 'NAME', length: 100, default: null })
   name: string;
 
+  @Column({ name: 'USER_CODE', length: 6, default: null, unique: true })
+  userCode: string;
+
   @Column({ name: 'BIRTHDAY', type: 'timestamp', default: null })
   birthday: Date;
 

@@ -5,6 +5,7 @@ import { GetUsers, StatusRes } from 'src/common/utils/users/classes';
 import { InsertUserDto } from 'src/common/dto/users/insert-user.dto';
 import { InsertTeamDto } from 'src/common/dto/users/insert-team.dto';
 import { InsertOccupationDto } from 'src/common/dto/users/insert-occcupation.dto';
+import { UserAuthorizationDto } from 'src/common/dto/users/user-authorization.dto';
 
 @Controller('users')
 export class UsersController {
@@ -66,5 +67,18 @@ export class UsersController {
   })
   inativeUser(@Param('id') id: string): Promise<StatusRes | null> {
     return this.usersService.inativeUser(id);
+  }
+
+  @ApiOperation({ summary: 'Autoriza usuário' })
+  @Post('/user-authorization')
+  @ApiResponse({
+    status: 200,
+    description: 'Usuários autorizado com sucesso',
+    type: StatusRes,
+  })
+  userAuthorization(
+    @Body() body: UserAuthorizationDto,
+  ): Promise<StatusRes | null> {
+    return this.usersService.userAuthorization(body);
   }
 }

@@ -31,6 +31,14 @@ export class UsersRepository {
     });
   }
 
+  getUserByCode(userCode: string): Promise<Users | null> {
+    return this.usersRepo.findOne({
+      where: {
+        userCode,
+      },
+    });
+  }
+
   getTeamById(id: number): Promise<Teams | null> {
     return this.teamsRepo.findOne({
       where: {
