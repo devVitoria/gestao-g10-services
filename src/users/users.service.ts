@@ -167,7 +167,7 @@ export class UsersService {
 
     return {
       status: 200,
-      message: 'Ocorreu um erro na iativação do usuário.',
+      message: 'Autorização concedida com sucesso.',
     };
   }
 }
